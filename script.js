@@ -1,0 +1,1 @@
+document.write('<p>this is "script.js".</p>');
