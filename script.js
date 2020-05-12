@@ -1,5 +1,7 @@
-var price = 12300;
-document.write('<p>価格:' + price + '円</p>');
-const tax = 0.08;
-price = price * (1.0 + tax);
-document.write('<p>税込価格:' + price + '円</p>');
+var num = 12345;
+document.write('<p>' + num + 'は、')
+if (num % 2 == 0) {
+  document.write('偶数。</p>')
+} else {
+  document.write('奇数。</p>')
+}
