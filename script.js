@@ -1,4 +1,8 @@
-var arr = [12, 345, 67, 89];
-var answer = arr[0] + arr[1] + arr[2] + arr[3];
+var arr = [100, 82, 69, 77, 91];
+var total = 0;
+for(var n in arr) {
+  total += arr[n];
+}
 
-document.write('<p>合計は、' + answer + 'です。');
+var average = total / 5;
+document.write('<p>合計は、' + total + 'です。平均は、' + average + 'です。</p>');
