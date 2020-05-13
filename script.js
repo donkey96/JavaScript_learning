@@ -1,15 +1,4 @@
-function calc(max) {
-  var total = 0
-  for(var num = 1;num <= max;num++){
-    total += num;
-  }
-  return total;
-}
+var arr = [12, 345, 67, 89];
+var answer = arr[0] + arr[1] + arr[2] + arr[3];
 
-document.write('<ol>');
-document.write('<li>10まで:' + calc(10) + '</li>');
-document.write('<li>20まで:' + calc(20) + '</li>');
-document.write('<li>30まで:' + calc(30) + '</li>');
-document.write('<li>40まで:' + calc(40) + '</li>');
-document.write('<li>50まで:' + calc(50) + '</li>');
-document.write('</ol>')
+document.write('<p>合計は、' + answer + 'です。');
