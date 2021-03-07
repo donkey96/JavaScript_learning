@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      function gobj(id) {
+        return document.querySelector(id);
+      }
+      function clickNow() {
+        var r = gobj("#red").value;
+        var g = gobj("#green").value;
+        var b = gobj("#blue").value;
+        var msg = gobj("#msg");
+        msg.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+      }
+    </script>
+  </head>
+  <body>
+    <h1 id="title">Hello!</h1>
+    <p id="msg">色を変えてみよう</p>
+    <p>
+    <input type="range" id="red" max="255"><br>
+    <input type="range" id="green" max="255"><br>
+    <input type="range" id="blue" max="255"><br>
+    </p>
+    <button onclick="clickNow()">Click</button>
+  </body>
+</html>
