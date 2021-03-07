@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      let context;
+      function init() {
+        let canvas = document.getElementById("canvas");
+        context =canvas.getContext('2d');
+        
+        for (let i = 0; i < 12; i++) {
+          context.save();
+          let r = Math.PI / 6 * i;
+          context.translate(100, 100);
+          context.rotate(r);
+          
+          context.beginPath();
+          context.moveTo(0, -60);
+          context.lineTo(0, -50);
+          context.stroke();
+          
+          context.restore();
+        }
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <canvas id="canvas" width="200" height="200"></canvas>
+  </body>
+</html>
