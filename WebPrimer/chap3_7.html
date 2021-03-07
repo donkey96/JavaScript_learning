@@ -3,11 +3,14 @@
   <head>
     <meta charset="UTF-8">
     <script>
+      function gobj(id) {
+        return document.querySelector(id);
+      }
       function clickNow() {
-        var r = document.querySelector("#red").value;
-        var g = document.querySelector("#green").value;
-        var b = document.querySelector("#blue").value;
-        var msg = document.querySelector("#msg");
+        var r = gobj("#red").value;
+        var g = gobj("#green").value;
+        var b = gobj("#blue").value;
+        var msg = gobj("#msg");
         msg.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
       }
     </script>
