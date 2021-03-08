@@ -1,36 +1,19 @@
 function draw() {
-  var pdata1 = [
+  var pdata = [
     [50, 100],
-    [350, 100],
-    [200, 300]
+    [100, 300],
+    [250, -100],
+    [300, 100]
   ];
-  var pdata2 = [
-    [50, 250],
-    [350, 250],
-    [200, 50]
-  ];
-
   var canvas = document.querySelector("#canvas");
   var context = canvas.getContext('2d');
-  
-  context.strokeStyle = 'black';
-
-  context.fillStyle = 'rgba(0, 255, 0, 0.5)';
-  tri(pdata1);
-
-  context.fillStyle='rgba(0, 0, 255, 0.5)';
-  tri(pdata2);
-
-  function tri(pdata) {
-    context.beginPath();
-    var p = pdata[0]
-    context.moveTo(p[0], p[1]);
-    for (var i = 1; i < pdata.length; i++) {
-      p = pdata[i];
-      context.lineTo(p[0], p[1]);
-    }
-    context.closePath();
-    context.fill();
-    context.stroke();
-  }
+  context.fillStyle='FF9999';
+  context.strokeStyle='blue';
+  context.beginPath();
+  context.moveTo(pdata[0][0], pdata[0][1]); // 開始地点
+  context.bezierCurveTo(
+    pdata[1][0], pdata[1][1], // コントロールポイント１
+    pdata[2][0], pdata[2][1], // コントロールポイント２
+    pdata[3][0], pdata[3][1] ); // 終了地点
+  context.stroke();
 }
