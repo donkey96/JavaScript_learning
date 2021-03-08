@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-size: 14pt;
+      font-weight: plain;
+    }
+    h1 {
+      color: white;
+      font-size: 24pt;
+    }
+    #area {
+      background-color: #ffeeee;
+      margin: 0px;
+      width: 500px;
+      height: 500px;
+    }
+    .newelement {
+      margin: 5px;
+      padding: 5px;
+      border: solid 1px red;
+    }
+  </style>
+  <script>
+    var count = 0;
+
+    function doDown(event) {
+      switch (event.buttons) {
+        case 1:
+          var w = event.clientX;
+          var h = event.clientY;
+          var obj = document.createElement('p');
+          obj.name = 'create element';
+          obj.className = 'newelement';
+          obj.textContent = "No, " + count++;
+          event.target.appendChild(obj);
+          break;
+        case 3:
+          if (event.target.name == 'create erement') {
+            var parent = event.target.parentElement;
+            parent.removeChild(event.target);
+          }
+          break;
+      }
+      event.preventDefault();
+    }
+  </script>
+</head>
+<body>
+  <h1 id="title">Hello!</h1>
+  <p id="area" onmousedown="doDown(event);">※エレメントの追加</p>
+</body>
+</html>
