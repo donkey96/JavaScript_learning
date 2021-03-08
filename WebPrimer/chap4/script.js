@@ -14,26 +14,23 @@ function draw() {
   var context = canvas.getContext('2d');
   
   context.strokeStyle = 'black';
-  context.beginPath();
-  var p = pdata1[0];
-  context.moveTo(p[0], p[1]);
-  for (var i = 1; i < pdata1.length; i++) {
-    p = pdata1[i];
-    context.lineTo(p[0], p[1]);
-  }
-  context.closePath();
+
   context.fillStyle = 'rgba(0, 255, 0, 0.5)';
-  context.fill();
-  context.stroke();
-  context.beginPath();
-  var p = pdata2[0];
-  context.moveTo(p[0], p[1]);
-  for (let i = 1; i < pdata2.length; i++) {
-    var p = pdata2[i];
-    context.lineTo(p[0], p[1]);
-  }
-  context.closePath();
+  tri(pdata1);
+
   context.fillStyle='rgba(0, 0, 255, 0.5)';
-  context.fill();
-  context.stroke();
+  tri(pdata2);
+
+  function tri(pdata) {
+    context.beginPath();
+    var p = pdata[0]
+    context.moveTo(p[0], p[1]);
+    for (var i = 1; i < pdata.length; i++) {
+      p = pdata[i];
+      context.lineTo(p[0], p[1]);
+    }
+    context.closePath();
+    context.fill();
+    context.stroke();
+  }
 }
