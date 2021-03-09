@@ -1,7 +1,7 @@
 var canvas;
 var img, bkimg;
-var x = 200;
-var y = 200;
+var x = 0;
+var timer;
 
 // 初期化の処理
 function initial() {
@@ -13,7 +13,7 @@ function initial() {
   bkimg = new Image();
   bkimg.src = "background.png";
   bkimg.onload = function () {
-    drawBackground();
+    timer = setInterval(draw, 50);
   }
 }
 
@@ -33,19 +33,9 @@ function drawBackground() {
 // イメージの描画
 function drawImage(event) {
   var context = canvas.getContext('2d');
-  switch (event.code) {
-    case 'ArrowLeft':
-      x -= 10;
-      break;
-    case 'ArrowRight':
-      x += 10;
-      break;
-    case 'ArrowUp':
-      y -= 10;
-      break;
-    case 'ArrowDown':
-      y += 10;
-      break;
+  x += 5;
+  context.drawImage(img, x, 230);
+  if (x > 400) {
+    clearInterval(timer);
   }
-  context.drawImage(img, x, y);
 }
