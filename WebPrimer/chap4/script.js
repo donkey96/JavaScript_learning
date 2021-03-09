@@ -1,10 +1,12 @@
 var canvas;
 var img, bkimg;
+var x = 200;
+var y = 200;
 
 // 初期化の処理
 function initial() {
   canvas = document.querySelector('#canvas');
-  canvas.onclick = draw;
+  canvas.onkeydown = draw;
 
   img = new Image();
   img.src = "character.png";
@@ -15,7 +17,7 @@ function initial() {
   }
 }
 
-// クリックした時の処理
+// キーを押した時の処理
 function draw(event) {
   drawBackground();
   drawImage(event);
@@ -31,8 +33,19 @@ function drawBackground() {
 // イメージの描画
 function drawImage(event) {
   var context = canvas.getContext('2d');
-  var x = event.clientX - canvas.offsetLeft;
-  var y = event.clientY - canvas.offsetTop;
-  context.drawImage(img, x - img.width / 2, y - img.height / 2);
-  
+  switch (event.code) {
+    case 'ArrowLeft':
+      x -= 10;
+      break;
+    case 'ArrowRight':
+      x += 10;
+      break;
+    case 'ArrowUp':
+      y -= 10;
+      break;
+    case 'ArrowDown':
+      y += 10;
+      break;
+  }
+  context.drawImage(img, x, y);
 }
