@@ -1,4 +1,5 @@
 var canvas;
+var context;
 var timer;
 var img, bkimg;
 var x = 100;
@@ -9,6 +10,7 @@ var dy = 5;
 // 初期化の処理
 function initial() {
   canvas = document.querySelector('#canvas');
+  context = canvas.getContext('2d');
   img = new Image();
   img.src = "character.png";
   bkimg = new Image();
@@ -26,19 +28,15 @@ function draw(event) {
 
 // 背景の描画
 function drawBackground() {
-  var context = canvas.getContext('2d');
   context.clearRect(0, 0, 500, 400);
   context.drawImage(bkimg, 0, 0, 500, 400);
 }
 
 // イメージの描画
-function drawImage(event) {
-  var context = canvas.getContext('2d');
+function drawImage() {
   x += dx;
   y += dy;
-  if (x < 0) { dx *= -1; }
-  if (y < 0) { dy *= -1; } 
-  if (x + img.width > 500) { dx *= -1; }
-  if (y + img.height > 400) { dy *= -1; }
+  if (x < 0 || x + img.width > 500) { dx *= -1; }
+  if (y < 0 || y + img.height > 400) { dy *= -1; } 
   context.drawImage(img, x, y);
 }
