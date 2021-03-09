@@ -1,13 +1,14 @@
 var canvas;
-var img, bkimg;
-var x = 0;
 var timer;
+var img, bkimg;
+var x = 100;
+var y = 100;
+var dx = 5;
+var dy = 5;
 
 // 初期化の処理
 function initial() {
   canvas = document.querySelector('#canvas');
-  canvas.onkeydown = draw;
-
   img = new Image();
   img.src = "character.png";
   bkimg = new Image();
@@ -33,9 +34,11 @@ function drawBackground() {
 // イメージの描画
 function drawImage(event) {
   var context = canvas.getContext('2d');
-  x += 5;
-  context.drawImage(img, x, 230);
-  if (x > 400) {
-    clearInterval(timer);
-  }
+  x += dx;
+  y += dy;
+  if (x < 0) { dx *= -1; }
+  if (y < 0) { dy *= -1; } 
+  if (x + img.width > 500) { dx *= -1; }
+  if (y + img.height > 400) { dy *= -1; }
+  context.drawImage(img, x, y);
 }
