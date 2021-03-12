@@ -35,7 +35,9 @@ function start() {
 
 // ●マウスイベントの処理
 function move(event) {
-  // マウスイベントの処理
+  if (gameFlag) {
+    gameObj.move(event);
+  }
 }
 
 // ●背景描画
