@@ -55,11 +55,20 @@ function drawBackground() {
 
 // ★タイマー処理オブジェクト
 function TimerObject() {
-  // 必要な変数
-
+  var counter = 0; // 呼び出し回数の変数
+  var level = 50; // レベルを示す変数
+  
   // タイマーで実行される処理
   this.runNow = function () {
-
+    counter += 1;
+    if (counter > level) {
+      counter = 0;
+      if (level > 2) {
+        level--;
+      }
+      gameObj.addItem();
+    }
+    gameObj.run();
   }
 
    // タイマースタート
@@ -67,7 +76,8 @@ function TimerObject() {
 
    // タイマーの停止処理
    this.stop = function () {
-     
+     clearInterval(timer);
+     gameFlag = false;
    }
 }
 
