@@ -6,11 +6,21 @@ var gameObj = null; // ゲームオブジェクト
 
 var bgImage = null; // 背景イメージ
 var hitImage = null; // 効果イメージ
-var itemeImages = null; // アイテムイメージの配列
+var itemImages = null; // アイテムイメージの配列
 
 // ●初期化の処理
 function initial() {
-  // 初期化の処理
+  bgImage = new Image();
+  bgImage.src = 'images/background.png';
+  bgImage.onload = function () {
+    drawBackground();
+  }
+  hitImage = new Image();
+  hitImage.src = 'images/hit.png';
+  itemImages = [new Image(), new Image(), new Image()];
+  itemImages[0].src = 'images/item1.png';
+  itemImages[1].src = 'images/item2.png';
+  itemImages[2].src = 'images/item3.png';
 }
 
 // ●スタート
