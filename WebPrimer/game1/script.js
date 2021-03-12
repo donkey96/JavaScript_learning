@@ -175,30 +175,47 @@ function CharacterObject() {
 
 // ★アイテム・オブジェクト
 function GameItem(img) {
-  // 必要な変数
+  var hitFlag = false; // ヒットしたかどうかを示す
+  var image = img; // 表示のイメージ
+  var lastCount = Math.floor( Math.random() * 100 ) + 50; // 最大カウント数
+  var count = 0; // カウント数
+  var x = Math.floor( Math.random() * 700 ); // 横位置
+  var y = Math.floor( Math.random() * 500 ); // 縦位置
 
   // 描画する
   this.draw = function (canvas) {
-    
+    count++;
+    var context = canvas.getContext('2d');
+    context.globalAlpha = count / lastCount;
+    context.drawImage(image, x, y);
+    context.globalAlpha = 1.0;
+    return count < lastCount;
   }
 
   // 位置を返す
   this.point = function () {
-    
+    if (hitFlag) {
+      return [-1000, -1000];
+    } else {
+      return [x, y];
+    }
   }
 
   // ヒットした時の処理
   this.hit = function () {
-    
+    score += (lastCount - count) * 10 + 100;
+    image = hitImage;
+    hitFlag = true;
+    setTimeout(this.clear, 200);
   }
 
   // ヒットしたかを調べる
   this.isHit = function () {
-    
+    return hitFlag;
   }
 
   // 消去する
   this.clear = function () {
-    
+    count = lastCount;
   }
 }
