@@ -45,10 +45,10 @@ function drawBackground() {
   var context = canvas.getContext('2d');
   context.drawImage(bgImage, 0, 0);
   if (gameFlag == false) {
-    context.font='50pt Georgia';
-    context.fillStyle='red';
+    context.font = '50pt Georgia';
+    context.fillStyle = 'red';
     context.fillText("Collect It!", 250, 200);
-    context.font='30pt Georgia';
+    context.font = '30pt Georgia';
     context.fillText("click to start", 300, 400);
   }
 }
@@ -83,31 +83,66 @@ function TimerObject() {
 
 // ★ゲーム管理オブジェクト
 function GameObject() {
-  // 必要な変数
+  var missCount = 0; // ミスした回数
+  var me = this; // オブジェクト自身
+  var canvas = document.querySelector("#canvas");
+  var myChar = new CharacterObject(); // キャラクタ・オブジェクト
+  var items = []; // アイテムを保管する配列
+  var mouseX = 0; // 現在のマウスの横位置
+  var mouseY = 0; // 現在のマウスの縦位置
 
   // アイテムを追加する
   this.addItem = function () {
-    
+    var n = Math.floor( Math.random() * 3 );
+    items.push(new GameItem(itemImages[n]));
   }
 
   // マウスイベントの処理
   this.move = function (e) {
-    
+    mouseX = e.clientX - canvas.offsetLeft;
+    mouseY = e.clientY - canvas.offsetTop;
   }
 
   // スコア表示
   this.drawScore = function () {
-    
+    var context = canvas.getContext('2d');
+    context.font = "48px Georgia";
+    context.fillStyle = 'red';
+    context.fillText(score, 20, 50);
   }
 
   // タイマーで実行するメイン処理
   this.run = function () {
-    
+    myChar.move(mouseX, mouseY);
+    this.checkHit();
+    if (missCount >= 10) {
+      timerObj.stop();
+    }
+    drawBackground();
+    for (var n in items) {
+      if (items[n].draw(canvas) == false) {
+        if (items[n].isHit() == false) {
+          missCount++;
+        }
+        items.splice(n, 1);
+      }
+    }
+    myChar.draw(canvas);
+    this.drawScore();
   }
 
   // ヒットしたかチェック
   this.checkHit = function () {
-    
+    var point = myChar.point();
+    for (var n in items) {
+      var point2 = items[n].point();
+      var dx = Math.abs(Math.abs(point[0]) - Math.abs(point2[0]));
+      var dy = Math.abs(Math.abs(point[1]) - Math.abs(point2[1]));
+      var d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 75) {
+        items[n].hit();
+      }
+    }
   }
 }
 
