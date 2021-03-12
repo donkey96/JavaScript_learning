@@ -25,7 +25,12 @@ function initial() {
 
 // ●スタート
 function start() {
-  // ゲーム開始の処理
+  if (gameFlag == false) {
+    score = 0;
+    gameFlag = true;
+    gameObj = new GameObject();
+    timerObj = new TimerObject();
+  }
 }
 
 // ●マウスイベントの処理
