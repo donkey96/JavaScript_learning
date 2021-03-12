@@ -43,7 +43,14 @@ function move(event) {
 // ●背景描画
 function drawBackground() {
   var context = canvas.getContext('2d');
-  // 描画の処理
+  context.drawImage(bgImage, 0, 0);
+  if (gameFlag == false) {
+    context.font='50pt Georgia';
+    context.fillStyle='red';
+    context.fillText("Collect It!", 250, 200);
+    context.font='30pt Georgia';
+    context.fillText("click to start", 300, 400);
+  }
 }
 
 // ★タイマー処理オブジェクト
