@@ -148,21 +148,28 @@ function GameObject() {
 
 // ★キャラクタ・オブジェクト
 function CharacterObject() {
-  // 必要な変数
+  var x = 350;
+  var y = 250;
+  var image = new Image();
+  image.src = 'images/character.png'
 
   // 動かす
   this.move = function (mx, my) {
-    
+    if (mx > x + 50) { x += 5; }
+    if (mx < x + 50) { x -= 5; }
+    if (my > y + 50) { y += 5; }
+    if (my < y + 50) { y -= 5; }
   }
 
   // 描画
   this.draw = function (canvas) {
-    
+    var context = canvas.getContext('2d');
+    context.drawImage(image, x, y);
   }
 
   // 位置を返す
   this.point = function () {
-    
+    return [x, y];
   }
 }
 
