@@ -1,7 +1,6 @@
 td.card {
   width: 100px;
   height: 140px;
-  border: 1px solid blue;
   border-radius: 10px;
   text-align: center;
   font-size: 36px;
@@ -12,4 +11,24 @@ td.card {
 td.back {
   background-image: url("card.png");
   background-size: 100px 140px;
+}
+
+td.color0 {
+  border: 1px solid blue; 
+}
+
+td.color1 {
+  border: 1px solid green; 
+}
+
+td.color2 {
+  border: 1px solid red; 
+}
+
+td.color3 {
+  border: 1px solid yellow; 
+}
+
+td.color4 {
+  border: 3px solid black; 
 }

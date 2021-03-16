@@ -19,7 +19,9 @@ function init() {
   var table = document.getElementById("table");
 
   var cards = [];
-  for (var i = 1; i <= 10; i++) {
+  for (var i = 1; i <= 13; i++) {
+    cards.push(i);
+    cards.push(i);
     cards.push(i);
     cards.push(i);
   }
@@ -27,12 +29,13 @@ function init() {
 
   for (var i = 0; i < 4; i++) {
     var tr = document.createElement("tr");
-    for (var j = 0; j < 5; j++) {
+    for (var j = 0; j < 13; j++) {
       var td = document.createElement("td");
       td.className = "card back";
-      td.number = cards[i * 5 + j];
+      td.number = cards[i * 13 + j];
       td.onclick = flip;
       tr.appendChild(td);
+      td.classList.add("color" + i);
     }
     table.appendChild(tr);
   }
@@ -50,11 +53,14 @@ function tick() {
 // カード裏返し
 function flip(e) {
   var src = e.srcElement;
+  var crassColor = src.classList.value;
+  console.log(e);
   if (flipTimer || src.textContent != "") {
     return;
   }
   var num = src.number;
-  src.className = "card";
+  var a =src.className = "card color4";
+  console.log(a)
   src.textContent = num;
 
   // 1枚目
@@ -72,9 +78,9 @@ function flip(e) {
     clearTimeout(flipTimer);
   } else {
     flipTimer = setTimeout(function () {
-      src.className = "card back";
+      src.className = crassColor;
       src.textContent = "";
-      prevCard.className = "card back";
+      prevCard.className = crassColor;
       prevCard.textContent = "";
       prevCard = null;
       flipTimer = NaN;
