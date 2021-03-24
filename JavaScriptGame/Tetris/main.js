@@ -1,7 +1,7 @@
 "use strict";
 
 function init() {
-  var width = 10, height = 20;
+  var width = 10, height = 20, speed = 20;
   var html = ["<table>"];
 
   for (var y = 0; y < height; y++) {
@@ -27,7 +27,10 @@ function init() {
     }
   }
 
+  var tick = 0;
+
   var move = function() {
+    tick++
     left0 = left;
     if (keys.left && left >0) {
       left--;
@@ -46,9 +49,13 @@ function init() {
     cells[top * width + left + 3].style.backgroundColor = "red";
     
     top0 = top;
-    top++
+    if (tick % speed == 0) {
+     top++; 
+    }
+    var info = tick + " (" + left + ", " + top + ")";
+    document.getElementById("info").innerHTML = info;
     if (top < height) {
-      setTimeout(move, 1000);
+      setTimeout(move, 1000 / speed);
     }
   }
   move();
