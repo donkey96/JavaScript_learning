@@ -16,16 +16,34 @@ function init() {
   var cells = document.getElementsByTagName("td");
   var top = 0;
   var top0 = top;
+  var left = 0;
+  var left0 = left;
+  var keys = {};
+
+  document.onkeydown = function (e) {
+    switch (e.key) {
+      case "ArrowLeft": keys.left = true; break;
+      case "ArrowRight": keys.right = true; break;
+    }
+  }
 
   var move = function() {
-    cells[top0 * width + 0].style.backgroundColor = "";
-    cells[top0 * width + 1].style.backgroundColor = "";
-    cells[top0 * width + 2].style.backgroundColor = "";
-    cells[top0 * width + 3].style.backgroundColor = "";
-    cells[top * width + 0].style.backgroundColor = "red";
-    cells[top * width + 1].style.backgroundColor = "red";
-    cells[top * width + 2].style.backgroundColor = "red";
-    cells[top * width + 3].style.backgroundColor = "red";
+    left0 = left;
+    if (keys.left && left >0) {
+      left--;
+    }
+    if (keys.right && left + 4 < width) {
+      left++;
+    }
+    keys = {};
+    cells[top0 * width + left0 + 0].style.backgroundColor = "";
+    cells[top0 * width + left0 + 1].style.backgroundColor = "";
+    cells[top0 * width + left0 + 2].style.backgroundColor = "";
+    cells[top0 * width + left0 + 3].style.backgroundColor = "";
+    cells[top * width + left + 0].style.backgroundColor = "red";
+    cells[top * width + left + 1].style.backgroundColor = "red";
+    cells[top * width + left + 2].style.backgroundColor = "red";
+    cells[top * width + left + 3].style.backgroundColor = "red";
     
     top0 = top;
     top++
