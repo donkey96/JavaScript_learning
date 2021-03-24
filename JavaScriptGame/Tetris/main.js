@@ -14,16 +14,23 @@ function init() {
   html.push("</table>");
   document.getElementById("view").innerHTML = html.join("");
   var cells = document.getElementsByTagName("td");
-  var top = 0;
+  var top = 2;
   var top0 = top;
-  var left = 0;
+  var left = Math.floor(width / 2);
   var left0 = left;
+  var w = width;
+  var angles = [ [-1, 1, 2], [-w, w, w + w], [-2, -1, 1], [-w - w, -w, w] ];
+  var angle = 0;
+  var parts0 = [];
   var keys = {};
 
   document.onkeydown = function (e) {
+    // var key = e.key;
+    // console.log(key);
     switch (e.key) {
       case "ArrowLeft": keys.left = true; break;
       case "ArrowRight": keys.right = true; break;
+      case " ": keys.rotate = true; break;
     }
   }
 
@@ -38,15 +45,19 @@ function init() {
     if (keys.right && left + 4 < width) {
       left++;
     }
+    if (keys.rotate) {
+      angle++;
+    }
     keys = {};
-    cells[top0 * width + left0 + 0].style.backgroundColor = "";
-    cells[top0 * width + left0 + 1].style.backgroundColor = "";
-    cells[top0 * width + left0 + 2].style.backgroundColor = "";
-    cells[top0 * width + left0 + 3].style.backgroundColor = "";
-    cells[top * width + left + 0].style.backgroundColor = "red";
-    cells[top * width + left + 1].style.backgroundColor = "red";
-    cells[top * width + left + 2].style.backgroundColor = "red";
-    cells[top * width + left + 3].style.backgroundColor = "red";
+    for (var i = -1; i < parts0.length; i++) {
+      var offset = parts0[i] || 0;
+      cells[top0 * width + left0 + offset].style.backgroundColor = "";
+    }
+    parts0 = angles[angle % angles.length];
+    for (var i = -1; i < parts0.length; i++) {
+      var offset = parts0[i] || 0;
+      cells[top * width + left + offset].style.backgroundColor = "red";
+    }
     
     top0 = top;
     if (tick % speed == 0) {
