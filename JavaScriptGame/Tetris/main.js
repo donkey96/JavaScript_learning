@@ -1,18 +1,26 @@
 "use strict";
 
 function init() {
-  var width = 10, height = 20, speed = 20;
+  var width = 12, height = 21, speed = 20;
+  var fills = {};
   var html = ["<table>"];
 
   for (var y = 0; y < height; y++) {
     html.push("<tr>");
     for (var x = 0; x < width; x++) {
-      html.push('<td></td>');
+      if (x == 0 || x == width - 1 || y == height - 1) {
+        html.push('<td style="background-color:silver"></td>');
+        fills[x + y * width] = 'silver'
+      } else {
+        html.push('<td></td>');
+      }
     }
     html.push("</tr>");
   }
+
   html.push("</table>");
   document.getElementById("view").innerHTML = html.join("");
+
   var cells = document.getElementsByTagName("td");
   var top = 2;
   var top0 = top;
@@ -21,6 +29,7 @@ function init() {
   var w = width;
   var angles = [ [-1, 1, 2], [-w, w, w + w], [-2, -1, 1], [-w - w, -w, w] ];
   var angle = 0;
+  var angle0 = angle;
   var parts0 = [];
   var keys = {};
 
@@ -39,35 +48,51 @@ function init() {
   var move = function() {
     tick++
     left0 = left;
-    if (keys.left && left >0) {
+    top0 = top;
+    angle0 = angle;
+
+    if (keys.left) {
       left--;
     }
-    if (keys.right && left + 4 < width) {
+    if (keys.right) {
       left++;
+    }
+    if (tick % speed == 0) {
+      top++;
     }
     if (keys.rotate) {
       angle++;
     }
+
     keys = {};
+    var parts = angles[angle % angles.length];
+
+    for (var i = -1; i < parts.length; i++) {
+      var offset = parts[i] || 0;
+      if (fills[top * width + left + offset]) {
+        left = left0;
+        top = top0;
+        angle = angle0;
+        parts = parts0;
+      }
+    }
+
     for (var i = -1; i < parts0.length; i++) {
       var offset = parts0[i] || 0;
       cells[top0 * width + left0 + offset].style.backgroundColor = "";
     }
-    parts0 = angles[angle % angles.length];
+
+    parts0 = parts;
+
     for (var i = -1; i < parts0.length; i++) {
       var offset = parts0[i] || 0;
       cells[top * width + left + offset].style.backgroundColor = "red";
     }
     
-    top0 = top;
-    if (tick % speed == 0) {
-     top++; 
-    }
     var info = tick + " (" + left + ", " + top + ")";
+
     document.getElementById("info").innerHTML = info;
-    if (top < height) {
-      setTimeout(move, 1000 / speed);
-    }
+    setTimeout(move, 1000 / speed);
   }
   move();
 }
