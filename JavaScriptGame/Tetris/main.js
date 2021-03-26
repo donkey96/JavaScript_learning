@@ -40,6 +40,7 @@ function init() {
   var angle = 0;
   var angle0 = angle;
   var parts0 = [];
+  var score = 0;
   var keys = {};
 
   document.onkeydown = function (e) {
@@ -89,6 +90,34 @@ function init() {
             var offset = parts0[j] || 0;
             fills[top0 * width + left0 + offset] = block.color;
           }
+          var cleans = 0;
+          for (var y = height - 2; y >= 0; y--) {
+            var filled = true;
+            for ( var x = 1; x < width - 1; x++) {
+              if (!fills[y * width + x]) {
+                filled = false;
+                break;
+              }
+            }
+            if (filled) {
+              for (var y2 = y; y2 >= 0; y2--) {
+                for (var x = 1; x < width - 1; x++) {
+                  fills[y2 * width + x] = fills[(y2 - 1) * width + x];
+                }
+              }
+              y++
+              cleans++
+            }
+          }
+          if (cleans > 0) {
+            score += Math.pow(10, cleans) * 10;
+            for (var y = height -2; y >= 0; y--) {
+              for (var x = 1; x < width - 1; x++) {
+                var color = fills[y * width + x] || "";
+                cells[y * width + x].style.backgroundColor = color;
+              }
+            }
+          }
           block = blocks[Math.floor(Math.random() * blocks.length)];
           left0 = left = Math.floor(width / 2);
           top0 = top = 2;
@@ -104,6 +133,10 @@ function init() {
       }
     }
 
+    if (top != top0) {
+      score++;
+    }
+
     for (var i = -1; i < parts0.length; i++) {
       var offset = parts0[i] || 0;
       cells[top0 * width + left0 + offset].style.backgroundColor = "";
@@ -116,7 +149,7 @@ function init() {
       cells[top * width + left + offset].style.backgroundColor = block.color;
     }
     
-    var info = tick + " (" + left + ", " + top + ")";
+    var info = tick + " (" + left + ", " + top + ") score: " + score;
 
     document.getElementById("info").innerHTML = info;
     setTimeout(move, 1000 / speed);
