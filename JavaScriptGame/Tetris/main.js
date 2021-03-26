@@ -41,6 +41,7 @@ function init() {
   var angle0 = angle;
   var parts0 = [];
   var score = 0;
+  var score0 = score;
   var keys = {};
 
   document.onkeydown = function (e) {
@@ -90,6 +91,14 @@ function init() {
             var offset = parts0[j] || 0;
             fills[top0 * width + left0 + offset] = block.color;
           }
+          if (score0 == score) {
+            for (var i in fills) {
+              if (fills[i]) {
+                cells[i].style.backgroundColor = "black";
+              }
+            }
+            return;
+          }
           var cleans = 0;
           for (var y = height - 2; y >= 0; y--) {
             var filled = true;
@@ -123,6 +132,7 @@ function init() {
           top0 = top = 2;
           angle0 = angle = 0;
           parts0 = parts = block.angles[angle % block.angles.length];
+          score0 = score;
         } else {
           left = left0;
           top = top0;
