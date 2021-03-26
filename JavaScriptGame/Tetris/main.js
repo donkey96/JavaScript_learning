@@ -27,7 +27,16 @@ function init() {
   var left = Math.floor(width / 2);
   var left0 = left;
   var w = width;
-  var angles = [ [-1, 1, 2], [-w, w, w + w], [-2, -1, 1], [-w - w, -w, w] ];
+  var blocks = [
+    { color: 'cyan', angles: [[-1, 1, 2], [-w, w, w + w], [-2, -1, 1], [-w - w, -w, w] ] },
+    { color: 'yellow', angles: [ [-w - 1, -w, -1] ] },
+    { color: 'green', angles: [ [-w, 1 - w, -1], [-w, 1, w + 1], [1, w - 1, w], [-w - 1, -1, w] ] },
+    { color: 'red', angles: [ [-w - 1, -w, 1], [1 - w, 1, w], [-1, w, w + 1], [-w, -1, w - 1] ] },
+    { color: 'blue', angles: [ [-w - 1, -1, 1], [-w, 1 - w, w], [-1, 1, w + 1], [-w, w - 1, w] ] },
+    { color: 'orange', angles: [ [1 - w, -1, 1], [-w, w, w + 1], [-1, 1, w - 1], [-w - 1, -w, w] ] },
+    { color: 'magenta', angles: [ [-w, -1, 1], [-w, 1, w], [-1, 1, w], [-w, -1, w] ] }
+  ]
+  var block = blocks[Math.floor(Math.random() * blocks.length)];
   var angle = 0;
   var angle0 = angle;
   var parts0 = [];
@@ -39,6 +48,7 @@ function init() {
     switch (e.key) {
       case "ArrowLeft": keys.left = true; break;
       case "ArrowRight": keys.right = true; break;
+      case "ArrowDown": keys.down = true; break;
       case " ": keys.rotate = true; break;
     }
   }
@@ -51,29 +61,46 @@ function init() {
     top0 = top;
     angle0 = angle;
 
-    if (keys.left) {
-      left--;
-    }
-    if (keys.right) {
-      left++;
-    }
     if (tick % speed == 0) {
       top++;
-    }
-    if (keys.rotate) {
-      angle++;
+    } else {
+      if (keys.left) {
+        left--;
+      }
+      if (keys.right) {
+        left++;
+      }
+      if (keys.down) {
+        top++;
+      }
+      if (keys.rotate) {
+        angle++;
+      }
     }
 
     keys = {};
-    var parts = angles[angle % angles.length];
+    var parts = block.angles[angle % block.angles.length];
 
     for (var i = -1; i < parts.length; i++) {
       var offset = parts[i] || 0;
       if (fills[top * width + left + offset]) {
-        left = left0;
-        top = top0;
-        angle = angle0;
-        parts = parts0;
+        if (tick % speed == 0) {
+          for (var j = -1; j < parts0.length; j++) {
+            var offset = parts0[j] || 0;
+            fills[top0 * width + left0 + offset] = block.color;
+          }
+          block = blocks[Math.floor(Math.random() * blocks.length)];
+          left0 = left = Math.floor(width / 2);
+          top0 = top = 2;
+          angle0 = angle = 0;
+          parts0 = parts = block.angles[angle % block.angles.length];
+        } else {
+          left = left0;
+          top = top0;
+          angle = angle0;
+          parts = parts0;
+        }
+        break;
       }
     }
 
@@ -86,7 +113,7 @@ function init() {
 
     for (var i = -1; i < parts0.length; i++) {
       var offset = parts0[i] || 0;
-      cells[top * width + left + offset].style.backgroundColor = "red";
+      cells[top * width + left + offset].style.backgroundColor = block.color;
     }
     
     var info = tick + " (" + left + ", " + top + ")";
