@@ -96,6 +96,9 @@ tetro = TETRO_TYPES[tetro_t];
 // フィールドの中身
 let field = [];
 
+// ゲームオーバーフラグ
+let over = false;
+
 // 本プログラム
 function main() {
   let can = document.getElementById("can");
@@ -111,6 +114,9 @@ function main() {
 
   // キーボードが押された時の処理
   document.onkeydown = function (e) {
+
+    if (over) return;
+
     switch (e.key) {
       case "ArrowLeft": // 左
         if ( checkMove(-1, 0) ) tetro_x--;
@@ -172,6 +178,18 @@ function drawAll() {
       }
     }
   }
+  if (over) {
+    let s = "GAME OVER";
+    context.font = '40px "MS ゴシック"';
+    let w = context.measureText(s).width;
+    let x = SCREEN_W / 2 - w / 2;
+    let y = SCREEN_H / 2 - 20;
+    context.lineWidth = 4;
+    context.strokeText(s, x, y);
+    context.fillStyle = 'white';
+    context.fillText(s, x, y);
+    
+  }
 }
 
 // ブロック１つを描画する関数
@@ -221,6 +239,7 @@ function rotate() {
   return ntetro;
 }
 
+// テトロを固定
 function fixTetro() {
   for (let y = 0; y < TETRO_SIZE; y++ ) {
     for (let x = 0; x < TETRO_SIZE; x++) {
@@ -231,15 +250,46 @@ function fixTetro() {
   }
 }
 
+// テトロが一列揃ったかチェックする
+function checkLine() {
+  let linec = 0;
+  for (let y = 0; y < FIELD_ROW; y++ ) {
+    let flag = true;
+    for (let x = 0; x < FIELD_COL; x++) {
+      if (!field[y][x]) {
+        flag = false;
+        break;
+      }
+    }
+    if (flag) {
+      linec++;
+
+      for (let ny = y; ny > 0; ny--) {
+        for (let nx = 0; nx < FIELD_COL; nx++) {
+          field[ny][nx] = field[ny - 1][nx];
+        }
+      }
+    }
+  } 
+}
+
 // テトロが落ちる関数
 function dropTetro() {
+
+  if (over) return;
+
   if ( checkMove(0, +1) ) tetro_y++;
   else {
     fixTetro();
+    checkLine();
     tetro_t = Math.floor( Math.random() * (TETRO_TYPES.length - 1) ) + 1;
     tetro = TETRO_TYPES[tetro_t];
     tetro_x = START_X;
     tetro_y = START_Y;
+
+    if ( !checkMove(0, 0) ) {
+      over = true;
+    }
   }
   drawAll();
 }
