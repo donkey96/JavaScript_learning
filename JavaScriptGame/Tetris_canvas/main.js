@@ -1,5 +1,8 @@
 "use strict";
 
+// 落ちるスピード
+const GAME_SPEED = 300;
+
 // フィールドのサイズ
 const FIELD_COL = 10;
 const FIELD_ROW = 20;
@@ -39,6 +42,8 @@ function main() {
   
   init();
   drawAll();
+
+  setInterval( dropTetro, GAME_SPEED );
 
   // キーボードが押された時の処理
   document.onkeydown = function (e) {
@@ -150,4 +155,25 @@ function rotate() {
     }
   } 
   return ntetro;
+}
+
+function fixTetro() {
+  for (let y = 0; y < TETRO_SIZE; y++ ) {
+    for (let x = 0; x < TETRO_SIZE; x++) {
+      if (tetro[y][x]) {
+        field[tetro_y + y][tetro_x + x] = 1;
+      }
+    }
+  }
+}
+
+// テトロが落ちる関数
+function dropTetro() {
+  if ( checkMove(0, +1) ) tetro_y++;
+  else {
+    fixTetro();
+    tetro_x = 0;
+    tetro_y = 0;
+  }
+  drawAll();
 }
