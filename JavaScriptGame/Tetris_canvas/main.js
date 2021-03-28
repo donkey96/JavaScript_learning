@@ -56,6 +56,8 @@ function main() {
       if ( checkMove(0, +1) ) tetro_y++;
         break;
       case " ": // スペース
+      let ntetro = rotate();
+      if ( checkMove(0, 0, ntetro) ) tetro = ntetro;
         break;
     }
     drawAll();
@@ -118,12 +120,14 @@ function drawBlock(x, y) {
 
 }
 
-function checkMove(mx, my) {
+// 当たり判定
+function checkMove(mx, my, ntetro) {
+  if ( ntetro == undefined ) ntetro = tetro;
   for (let y = 0; y < TETRO_SIZE; y++ ) {
     for (let x = 0; x < TETRO_SIZE; x++) {
       let nx = tetro_x + mx + x;
       let ny = tetro_y + my + y;
-      if (tetro[y][x]) {
+      if (ntetro[y][x]) {
         if ( ny < 0 ||
              nx < 0 ||
              ny >= FIELD_ROW ||
@@ -135,4 +139,15 @@ function checkMove(mx, my) {
     }
   }
   return true;
+}
+// テトロの回転
+function rotate() {
+  let ntetro = [];
+  for (let y = 0; y < TETRO_SIZE; y++ ) {
+    ntetro[y] = [];
+    for (let x = 0; x < TETRO_SIZE; x++) {
+      ntetro[y][x] = tetro[TETRO_SIZE - x - 1][y];
+    }
+  } 
+  return ntetro;
 }
